@@ -33,7 +33,7 @@ for row in trainingData:
 	# featureData['sibsp'] = row[6]
 	# featureData['parch'] = row[7]
 	featureData['fare'] = row[9]
-	featureData['cabin'] = row[10]
+	featureData['cabin'] = row[10] if len(row[10]) > 0 else 0
 	featureData['embarked'] = row[11]
 
 	train_X.append(featureData)
@@ -47,8 +47,12 @@ train_X_vect = v.fit_transform(train_X)
 # train_Y = train_Y[:800]
 
 
-clf = MultinomialNB()
-# clf = clf.fit(train_X_vect, train_Y)
+# clf = MultinomialNB()
+
+from sklearn.svm import SVC
+clf = SVC(gamma=1.5, C=15, kernel="poly", degree=6)
+
+clf = clf.fit(train_X_vect, train_Y)
 
 # pred = clf.predict(cv_X_vect)
 # print accuracy_score(cv_Y, pred)
@@ -66,8 +70,8 @@ for row in testData:
 	# featureData['sibsp'] = row[5]
 	# featureData['parch'] = row[6]
 	featureData['fare'] = row[8]
-	featureData['cabin'] = row[9]
-	# featureData['embarked'] = row[10]
+	featureData['cabin'] = row[9] if len(row[9]) > 0 else 0
+	featureData['embarked'] = row[10]
 
 	test_X.append(featureData)
 	outputList.append([row[0]])
